@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <title>Fyzika Databáze</title>
+</head>
+<body>
+  <h1>Nahrávání souborů</h1>
+  <form action="/upload" method="POST" enctype="multipart/form-data">
+    <input type="file" name="file" required>
+    <button type="submit">Nahrát soubor</button>
+  </form>
+
+  <h2>Seznam souborů:</h2>
+  <ul id="fileList"></ul>
+
+  <script>
+  async function loadFiles() {
+    const res = await fetch("/files");
+    const files = await res.json();
+    const list = document.getElementById("fileList");
+    list.innerHTML = "";
+    files.forEach(f => {
+      const li = document.createElement("li");
+      li.innerHTML = `<a href="${f.url}" target="_blank">${f.name}</a>`;
+      list.appendChild(li);
+    });
+  }
+
+  loadFiles();
+  </script>
+</body>
+</html>
